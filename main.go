@@ -2,16 +2,13 @@ package main
 
 import (
 	"log"
+	"os"
 	"time"
 
 	"github.com/sclevine/agouti"
 )
 
 func main() {
-	// user / pass
-	const username = "username"
-	const password = "password"
-
 	driver := agouti.ChromeDriver()
 	defer driver.Stop()
 
@@ -28,19 +25,23 @@ func main() {
 	page.Navigate("https://trade.sbineomobile.co.jp/login")
 
 	// put user info
-	u := page.FindByName(username)
+	u := page.FindByName("username")
 	ue, err := u.Elements()
 	if err != nil {
 		log.Fatalf("%s\n", err)
 	}
-	ue[0].Value(username)
-	p := page.FindByName(password)
+	ue[0].Value(os.Getenv("NEO_USER"))
+	p := page.FindByClass("input-password")
 	pe, err := p.Elements()
 	if err != nil {
 		log.Fatalf("%s\n", err)
 	}
-	pe[0].Value(password)
+	pe[0].Value(os.Getenv("NEO_PASS"))
 
-	// click
-	time.Sleep(time.Second * 1)
+	// // click
+	// b := page.FindByID("neo-login-btn")
+	// b.Click()
+
+	// sleep
+	time.Sleep(time.Second * 10)
 }

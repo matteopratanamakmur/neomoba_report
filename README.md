@@ -20,5 +20,11 @@ $ brew install chromedriver
 % xattr -d com.apple.quarantine chromedriver
 ```
 
+## user / pass は環境変数から取得
+```
+% export NEO_USER=<USERNAME>
+% export NEO_PASS=<PASSWORD>
+```
+
 ## 参考ページ
 - https://sites.google.com/a/chromium.org/chromedriver/
