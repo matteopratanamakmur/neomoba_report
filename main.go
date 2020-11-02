@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"encoding/csv"
 	"log"
 	"os"
 	"time"
@@ -58,9 +58,31 @@ func main() {
 		time.Sleep(time.Second * 1)
 	}
 
-	// get price
-	plm := page.AllByClass("panels")
-	fmt.Print(plm.All("table"))
+	// get portfolio info
+	// plm := page.AllByClass("panels")
+	// fmt.Print(plm.All("table"))
+	const n = 10
+	const m = 5
+	pfs := make([][]string, n)
+	for i := 0; i < n; i++ {
+		pfs[i] = make([]string, m)
+	}
+
+	// open csv
+	file, err := os.OpenFile("export.csv", os.O_WRONLY|os.O_CREATE, 0600)
+	failOnError(err)
+	defer file.Close()
+
+	// truncate csv
+	err = file.Truncate(0)
+	failOnError(err)
+
+	// write csv
+	writer := csv.NewWriter(file)
+	for i := 0; i < n; i++ {
+		writer.Write(pfs[i])
+	}
+	writer.Flush()
 
 	// sleep
 	time.Sleep(time.Second * 60)
